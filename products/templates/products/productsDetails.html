@@ -1,0 +1,15 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>Name: {{ product.product_name }}</p>
+    <p>Cost: {{ product.product_price }}</p>
+    <p>Descrption: {{ product.product_description }}</p>
+    <p>Expiration date: {{ product.product_expiration_date }}</p>
+<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
+</body>
+</html>
