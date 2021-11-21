@@ -6,14 +6,19 @@
     <title>Title</title>
 </head>
 <body>
-<ol>
+{% if searched %}
+    <p>You searched for {{ searched }}</p>
+{% else %}
     {% for p in products %}
-        <li><a href="{{ p.product_name}}/">{{ p.product_name }}</a></li>
-        <a href="{% url 'delete_product' p.product_name%}">Delete</a>
-        <a href="{% url 'update_product' p.product_name%}">Update</a>
+        <p><a href="{{ p.product_name }}/">{{ p.product_name }} Price: {{ p.product_price }} -- (only for the admin)
+            -> </a>
+            <a href="{% url 'delete_product' p.product_name %}">Delete</a>
+            <a href="{% url 'update_product' p.product_name %}">Update</a>
+        </p>
     {% endfor %}
-</ol>
-<a href="{% url 'create_product' %}">Create a new product</a>
+{% endif %}
+
+<a href="{% url 'create_product' %}">(only for the admin) -> Create a new product</a>
 
 </body>
 </html>

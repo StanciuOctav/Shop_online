@@ -9,7 +9,7 @@
     <div>
         <form method="POST" action="">
             {% csrf_token %}
-            <input type="submit" value="Yes" name="Yes"/>
+            <input type="submit" value="yes" name="yes"/>
         </form>
     </div>
     <a href="{{ request.META.HTTP_REFERER }}">Go Back</a>

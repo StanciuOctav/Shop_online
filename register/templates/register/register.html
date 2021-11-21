@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+   <div class="container">
+    <h1>Form</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" value="Submit">
+    </div>
+        <a href="{{ request.META.HTTP_REFERER }}">Already have an account? Go back to Login</a>
+    </form>
+
+</div>
+
+</body>
+</html>
