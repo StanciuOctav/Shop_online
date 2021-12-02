@@ -1,36 +1,42 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Client
-from .forms import ClientForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
-def login(request):
+def loginPage(request):
     if request.method == "POST":
         email = request.POST["email"]  # getting the email from the login page
         password = request.POST["password"]  # getting the password from the login page
         if password != "" and email != "":  # both fields were completed
-            try:
-                user = Client.objects.get(email=email)  # getting the user with the email introduced
-                if user.password == password:  # if the user's password corresponds to the one introduced
-                    return redirect("products/show/")
-                else:
-                    print("Wrong password")
-            except:
-                print("It doesn't exist an user with this password")
+            # client = User.objects.get(email=email)  # getting the user with the email introduced
+            userUser = User.objects.get(email=email)
+            print(f"Username:{userUser.username} Password:{userUser.password}")
+            userToLogin = authenticate(request, username=userUser.username, password=password)
+            print(f"UserToLogin: {userToLogin}")
+            # login(request, userToLogin)
+            if userToLogin is not None:
+                print(f"Username:{userToLogin.username} Password:{userToLogin.password}")
+                return redirect('list_products')
+            else:
+                return redirect('loginPage')
         else:
             print("One of the two fields were not completed")
-    return render(request, "register/login.html", {})
+    else:
+        return render(request, "register/login.html", {})
 
 
-def register(request):
-    form = ClientForm()
+def registerPage(request):
+    form = UserCreationForm()
     if request.method == "POST":
-        form = ClientForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('loginPage')
         else:
-            form = ClientForm()
+            form = UserCreationForm()
             print("Form is invalid")
     return render(request, "register/register.html", {"form": form})

@@ -1,9 +1,5 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 
-from .models import Client
+from django.contrib.auth.models import User
 
-
-class ClientForm(ModelForm):
-    class Meta:
-        model = Client
-        fields = ['first_name', 'last_name', 'username', 'email', 'password']
