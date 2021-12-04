@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.decorators import login_required
 
 from .models import Product
 from .forms import ProductForm
@@ -10,8 +10,7 @@ def list_products(request):
         searched = request.POST["searched"].lower()  # asta se face atunci cand se apasa pe butonul de search
         products = []
         for p in Product.objects.all():
-            if p.product_name.lower().find(
-                    searched) > -1:  # .find() returneaza indexul la care se gaseste string ul searched si -1 daca nu l gaseste
+            if p.product_name.lower().find(searched) > -1:  # .find() returneaza indexul la care se gaseste string ul searched si -1 daca nu l gaseste
                 products.append(p)
         return render(request, "products/productsList.html", {"products": products})
     else:
@@ -24,6 +23,7 @@ def detailed_product(request, p_name):
     return render(request, "products/productsDetails.html", {"product": product})
 
 
+@login_required(login_url='loginPage')
 def create_product(request):
     form = ProductForm()
     if request.method == "POST":
@@ -37,6 +37,7 @@ def create_product(request):
     return render(request, "products/productsForm.html", {"form": form})
 
 
+@login_required(login_url='loginPage')
 def delete_product(request, p_name):
     product = Product.objects.get(product_name=p_name)
     if request.method == "POST":
@@ -47,6 +48,7 @@ def delete_product(request, p_name):
     return render(request, 'products/productsDelete.html', {'product': product})
 
 
+@login_required(login_url='loginPage')
 def update_product(request, p_name):
     product = Product.objects.get(product_name=p_name)
     form = ProductForm(instance=product)
