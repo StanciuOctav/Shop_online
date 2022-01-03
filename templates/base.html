@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shop</title>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,7 @@
                     <a class="nav-link" href="{% url 'list_products' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
+                    <a class="nav-link" href="{% url 'accountPage' %}">Account</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -25,7 +25,7 @@
                         More actions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Cart</a>
+                        <a class="dropdown-item" href="{% url 'show_cart' %}">Cart</a>
                         <a class="dropdown-item" href="#">Orders</a>
                         <div class="dropdown-divider"></div>
                         {% if request.user.is_authenticated %}
@@ -36,12 +36,12 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'list_products' %}">
                 {% csrf_token %}
-                <input class="form-control mr-sm-2" type="search" placeholder="Search by product name" aria-label="Search" name="searched">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search by product name"
+                       aria-label="Search" name="searched">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
-
 
 </head>
 <body>

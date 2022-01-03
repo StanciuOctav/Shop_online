@@ -3,9 +3,25 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import UserSignUpForm
+from carts.models import Cart
 
 
-# Create your views here.
+def accountPage(request):
+    if request.user.is_authenticated:
+        return render(request, 'products/accountDetails.html', {'user': request.user})
+    else:
+        redirect('loginPage')
+
+
+def create_cart(request):
+    user = request.user
+    try:
+        Cart.objects.get(cart_user_id=user.id)
+    except:
+        cart = Cart(cart_user_id=user.id)
+        cart.save()
+
+
 def loginPage(request):
     if request.method == "POST":
         email = request.POST["email"]  # getting the email from the login page
@@ -20,6 +36,7 @@ def loginPage(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                create_cart(request)
                 return redirect('list_products')
             else:
                 return redirect('loginPage')

@@ -1,0 +1,16 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }} current cart:</title>
+</head>
+<body>
+    <p>Cart id: {{ cart.cart_user_id }}</p>
+    {% csrf_token %}
+    {% for key, value in products.items %}
+        <p>{{ key.product_name }}  x{{ value }} </p>
+    {% endfor %}
+<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
+</body>
+</html>

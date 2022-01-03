@@ -1,0 +1,17 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Details</title>
+</head>
+<body>
+    <p>Name: {{ user.username }}</p>
+    <p>Password: {{ user.password }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Is staff: {{ user.is_staff }}</p>
+    <p>Total orders: -- to be completed --</p>
+    <p>Total money spent: -- to be completed --</p>
+<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
+</body>
+</html>

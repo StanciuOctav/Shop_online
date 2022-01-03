@@ -1,26 +1,32 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-{% if searched %}
-    <p>You searched for {{ searched }}</p>
-{% else %}
-    {% for p in products %}
-        <p><a href="{{ p.product_name }}/">{{ p.product_name }} Price: {{ p.product_price }} </a>
-            {% if request.user.is_authenticated and request.user.is_staff %}
-            <a href="{% url 'delete_product' p.product_name %}">Delete</a>
-            <a href="{% url 'update_product' p.product_name %}">Update</a>
-            {% endif %}
-        </p>
-    {% endfor %}
-{% endif %}
+{% block content %}
 
-{% if request.user.is_authenticated and request.user.is_staff %}
-<a href="{% url 'create_product' %}">(only for the admin) -> Create a new product</a>
-{% endif %}
+    {% if searched %}
+        <p>You searched for {{ searched }}</p>
+    {% else %}
+        {% for p in products %}
+            <p><a href="{{ p.product_name }}/">{{ p.product_name }} Price: {{ p.product_price }} </a>
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <a href="{% url 'delete_product' p.product_name %}">Delete</a>
+                    <a href="{% url 'update_product' p.product_name %}">Update</a>
+                {% endif %}
+                <form method="get" action="">
+                    <input type="submit" name="button" value="{{ p.product_name }}"/>
+                </form>
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    {% if request.user.is_authenticated and request.user.is_staff %}
+        <a href="{% url 'create_product' %}">(only for the admin) -> Create a new product</a>
+    {% endif %}
+
+{% endblock %}
 </body>
 </html>
