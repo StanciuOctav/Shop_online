@@ -15,3 +15,4 @@ class Product(models.Model):
 class CartProduct(models.Model):
     product_id = models.IntegerField(validators=[MinValueValidator(0)])
     cart_id = models.IntegerField(validators=[MinValueValidator(0)])
+
