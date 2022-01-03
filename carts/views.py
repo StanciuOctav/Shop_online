@@ -8,6 +8,8 @@ from products.models import CartProduct, Product
 @login_required(login_url='loginPage')
 def show_cart(request):
     # trebuie sa numaram de cate ori a fost adaugat fiecare produs
+    if request.method == "GET":
+        delete_product_from_cart(request)
     user = request.user
     cart = Cart.objects.get(cart_user_id=user.id)
     products_in_cart = CartProduct.objects.all().filter(cart_id=cart.id)  # lista de CartProducts
@@ -21,3 +23,13 @@ def show_cart(request):
         value = CartProduct.objects.filter(product_id=key.id, cart_id=cart.id).count()
         cart_products[key] = value
     return render(request, 'carts/show_cart.html', {"products": cart_products, "cart": cart})
+
+
+def delete_product_from_cart(request):
+    product_name = request.GET.get('button2')
+    product = Product.objects.get(product_name=product_name)
+    user = request.user
+    cart = Cart.objects.get(cart_user_id=user.id)
+    cart_product = CartProduct.objects.filter(product_id=product.id, cart_id=cart.id)
+    for cp in cart_product:
+        cp.delete()
