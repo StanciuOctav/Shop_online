@@ -10,3 +10,8 @@ class Product(models.Model):
     product_description = models.CharField(max_length=300)
     product_expiration_date = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True)
     product_in_stock = models.IntegerField(validators=[MinValueValidator(0)])
+
+
+class CartProduct(models.Model):
+    product_id = models.IntegerField(validators=[MinValueValidator(0)])
+    cart_id = models.IntegerField(validators=[MinValueValidator(0)])

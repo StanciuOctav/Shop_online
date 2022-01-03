@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Cart
+from products.models import CartProduct, Product
 
 
 # Create your views here.
@@ -9,11 +10,14 @@ def show_cart(request):
     # trebuie sa numaram de cate ori a fost adaugat fiecare produs
     user = request.user
     cart = Cart.objects.get(cart_user_id=user.id)
-    cart.save()
-    without_duplicates = list(dict.fromkeys(cart.cart_products))
-    apperances = [cart.cart_products.count(e) for e in without_duplicates]
-    dictionary = {}
-    for index in range(len(without_duplicates)):
-        dictionary[without_duplicates[index]] = apperances[index]
-    return render(request, 'carts/show_cart.html',
-                  {'user': user, 'cart': cart, "products": dictionary})
+    products_in_cart = CartProduct.objects.all().filter(cart_id=cart.id)  # lista de CartProducts
+    products_ids = []
+    for p in products_in_cart:
+        products_ids.append(p.product_id)  # creating a list with only the product_id
+    without_duplicates = list(dict.fromkeys(products_ids))  # deleting duplicates
+    cart_products = {}  # dictionary where Key is the product and value is the number ordered
+    for i in without_duplicates:
+        key = Product.objects.get(id=i)
+        value = CartProduct.objects.filter(product_id=key.id, cart_id=cart.id).count()
+        cart_products[key] = value
+    return render(request, 'carts/show_cart.html', {"products": cart_products, "cart": cart})
