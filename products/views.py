@@ -27,12 +27,12 @@ def list_products(request):
         if cart is None:
             cart = Cart(cart_user_id=request.user.id)
             cart.save()
-        product_name_button = request.GET.get('button')
-        product = Product.objects.get(product_name=product_name_button)
-        cart.cart_products.append(product)
-        print(f"{product.product_name}, {cart.cart_products}")
+        #product_name_button = request.GET.get('button')
+        #product = Product.objects.get(product_name=product_name_button)
+        #cart.cart_products.append(product)
+        #print(f"{product.product_name}, {cart.cart_products}")
         cart.save()
-        print("GATA")
+        #print("GATA")
     products = Product.objects.all()
     return render(request, "products/productsList.html", {"products": products})
 
