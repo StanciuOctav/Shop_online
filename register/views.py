@@ -13,6 +13,7 @@ def accountPage(request):
         redirect('loginPage')
 
 
+
 def create_cart(request):
     user = request.user
     try:

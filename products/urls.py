@@ -13,4 +13,9 @@ urlpatterns = [
     path('createProduct/', views.create_product, name='create_product'),
     path('delete/<str:p_name>/', views.delete_product, name='delete_product'),
     path('update/<str:p_name>/', views.update_product, name='update_product'),
+    path('renameClient/', views.renameClient, name='renameClient'),
+
+    #ptr rename
+    path('rename/<str:username>/', views.rename, name='rename'),
+
 ]

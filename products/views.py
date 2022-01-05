@@ -81,3 +81,17 @@ def update_product(request, p_name):
             return redirect('list_products')
 
     return render(request, 'products/productsUpdate.html', {'form': form})
+
+
+def rename(request, username):
+    return render(request, 'products/renameClient.html', {'username': username})
+
+
+def renameClient(request):
+
+    aux = request.GET.get('cautat')
+    currentUser = request.user
+    currentUser.username = aux
+    currentUser.save()
+    products = Product.objects.all()
+    return render(request, "products/productsList.html", {"products": products})

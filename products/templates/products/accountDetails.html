@@ -12,6 +12,11 @@
     <p>Is staff: {{ user.is_staff }}</p>
     <p>Total orders: -- to be completed --</p>
     <p>Total money spent: -- to be completed --</p>
+
+
+    <a href="{% url 'rename' user.username %}">Rename</a>
+
 <a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
+
 </body>
 </html>

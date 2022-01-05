@@ -1,0 +1,42 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+<form method="GET" action="{% url 'renameClient' %}">
+    <label for="user">Nume</label><input type="text" id="user" value="{{ username }}" name="cautat"/>
+    {% csrf_token %}
+    <br>
+    <button class="button" type="submit" value="Save" name="submit">Rename</button>
+</form>
+
+
+{#    <form method="POST" action="">#}
+{#            {% csrf_token %}#}
+{#            <a href="{% url 'renameClient' username %}">Rename</a>#}
+{#    </form>#}
+
+<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
+</body>
+</html>
