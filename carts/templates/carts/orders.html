@@ -7,7 +7,6 @@
 </head>
 <body>
 
-<p>Orders of {{ username }} : </p>
 {% csrf_token %}
 {% for key,value in orders %}
     <p>Order : {{ key }} : </p>
