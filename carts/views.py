@@ -57,8 +57,8 @@ def addOrder(request, username):
 
     nrOrders = nrOrders + 1
 
-    orders[nrOrders] = cart_products
+    orders[nrOrders] = cart_products[user.id]
 
-    
+    # stergere cartului
 
     return render(request, 'carts/orders.html', {'username': username, 'orders': orders})
