@@ -1,3 +1,5 @@
+import decimal
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Cart
@@ -10,8 +12,8 @@ from .models import Order
 @login_required(login_url='loginPage')
 def show_cart(request):
     # trebuie sa numaram de cate ori a fost adaugat fiecare produs
-    if request.method == "GET":
-        delete_product_from_cart(request)
+    # if request.method == "GET":
+    #     delete_product_from_cart(request)
     user = request.user
     cart = Cart.objects.get(cart_user_id=user.id)
     products_in_cart = CartProduct.objects.all().filter(cart_id=cart.id)  # lista de CartProducts
@@ -37,7 +39,7 @@ def delete_product_from_cart(request):
         cp.delete()
 
 
-def addOrder(request, username):
+def addOrder(request):
     user = request.user
     cart = Cart.objects.get(cart_user_id=user.id)
     products_in_cart = CartProduct.objects.all().filter(cart_id=cart.id)  # lista de CartProducts
@@ -51,14 +53,18 @@ def addOrder(request, username):
         value = CartProduct.objects.filter(product_id=key.id, cart_id=cart.id).count()
         cart_products[key] = value
 
-    orders = Order.objects.get(cart_user_id=user.id)
+    try:
+        orders = Order.objects.get(order_user_id=user.id)
+    except:
+        nrOrders = Order.objects.filter(order_user_id=user.id).count()
+        order = Order(order_user_id=user.id, order_order_id=nrOrders + 1)
+        print(f"{user.id}")
+        cart_products = CartProduct.objects.all().filter(cart_id=user.id)
+        total_price = 0.0
+        for cp in cart_products:
+            product = Product.objects.get(id=cp.product_id)
+            total_price += float(str(product.product_price))
+        order.order_total_price = total_price
+        order.save()
 
-    nrOrders = len(orders.keys())
-
-    nrOrders = nrOrders + 1
-
-    orders[nrOrders] = cart_products[user.id]
-
-    # stergere cartului
-
-    return render(request, 'carts/orders.html', {'username': username, 'orders': orders})
+        return render(request, 'carts/orders.html', {})
