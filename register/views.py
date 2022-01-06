@@ -5,13 +5,24 @@ from django.contrib import messages
 from .forms import UserSignUpForm
 from carts.models import Cart
 
+from manage import subject
+
+
+class ObserverRegister:
+    def update(self, name, **kargs):
+        print("Inregistrare cu succes")
+
+
+class ObserverLogin:
+    def update(self, name, **kargs):
+        print("Login cu succes")
+
 
 def accountPage(request):
     if request.user.is_authenticated:
         return render(request, 'products/accountDetails.html', {'user': request.user})
     else:
         redirect('loginPage')
-
 
 
 def create_cart(request):
@@ -38,6 +49,15 @@ def loginPage(request):
             if user is not None:
                 login(request, user)
                 create_cart(request)
+
+                sub = subject()
+
+                obserLogin = ObserverLogin()
+
+                sub.attach(obserLogin)
+
+                sub.notify()
+
                 return redirect('list_products')
             else:
                 return redirect('loginPage')
@@ -58,6 +78,15 @@ def registerPage(request):
         form = UserSignUpForm(request.POST)
         if form.is_valid():
             form.save()
+
+            sub = subject()
+
+            obserLogin = ObserverRegister()
+
+            sub.attach(obserLogin)
+
+            sub.notify()
+
             return redirect('loginPage')
         else:
             form = UserSignUpForm()

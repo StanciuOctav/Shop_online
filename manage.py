@@ -18,5 +18,24 @@ def main():
     execute_from_command_line(sys.argv)
 
 
+class subject():
+    def __init__(self):
+        self.observers = []
+
+    def attach(self, observer):
+        if not observer in self.observers:
+            self.observers.append(observer)
+
+    def detach(self, observer):
+        try:
+            self.observers.remove(observer)
+        except ValueError:
+            pass
+
+    def notify(self, **kargs):
+        for observer in self.observers:
+            observer.update(self, **kargs)
+
+
 if __name__ == '__main__':
     main()
