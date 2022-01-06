@@ -12,11 +12,9 @@ class ObserverRegister:
     def update(self, name, **kargs):
         print("Inregistrare cu succes")
 
-
 class ObserverLogin:
     def update(self, name, **kargs):
         print("Login cu succes")
-
 
 def accountPage(request):
     if request.user.is_authenticated:
@@ -58,6 +56,7 @@ def loginPage(request):
 
                 sub.notify()
 
+
                 return redirect('list_products')
             else:
                 return redirect('loginPage')
@@ -86,6 +85,8 @@ def registerPage(request):
             sub.attach(obserLogin)
 
             sub.notify()
+
+
 
             return redirect('loginPage')
         else:
