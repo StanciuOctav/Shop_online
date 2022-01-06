@@ -6,3 +6,8 @@ from django.core.validators import MinValueValidator
 class Cart(models.Model):
     cart_user_id = models.IntegerField()
     cart_total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+
+class Order(models.Model):
+    order_user_id = models.IntegerField()
+    products = {}

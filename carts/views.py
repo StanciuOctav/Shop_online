@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Cart
 from products.models import CartProduct, Product
 
+from .models import Order
+
 
 # Create your views here.
 @login_required(login_url='loginPage')
@@ -33,3 +35,30 @@ def delete_product_from_cart(request):
     cart_product = CartProduct.objects.filter(product_id=product.id, cart_id=cart.id)
     for cp in cart_product:
         cp.delete()
+
+
+def addOrder(request, username):
+    user = request.user
+    cart = Cart.objects.get(cart_user_id=user.id)
+    products_in_cart = CartProduct.objects.all().filter(cart_id=cart.id)  # lista de CartProducts
+    products_ids = []
+    for p in products_in_cart:
+        products_ids.append(p.product_id)  # creating a list with only the product_id
+    without_duplicates = list(dict.fromkeys(products_ids))  # deleting duplicates
+    cart_products = {}  # dictionary where Key is the product and value is the number ordered
+    for i in without_duplicates:
+        key = Product.objects.get(id=i)
+        value = CartProduct.objects.filter(product_id=key.id, cart_id=cart.id).count()
+        cart_products[key] = value
+
+    orders = Order.objects.get(cart_user_id=user.id)
+
+    nrOrders = len(orders.keys())
+
+    nrOrders = nrOrders + 1
+
+    orders[nrOrders] = cart_products
+
+    
+
+    return render(request, 'carts/orders.html', {'username': username, 'orders': orders})

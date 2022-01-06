@@ -15,6 +15,11 @@
         <input type="hidden" name="button2" value="{{ key.product_name}}"/>
     </form>
 {% endfor %}
+
+<a href="{% url 'addOrder' user.username %}">Add Order</a>
+
+
+
 <a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
 </body>
 </html>

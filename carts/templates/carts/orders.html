@@ -1,0 +1,31 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>Orders of {{ username }} : </p>
+{% csrf_token %}
+{% for key,value in orders %}
+    <p>Order : {{ key }} : </p>
+
+    <ol>
+        {% for pro in value %}
+            <li>pro</li>
+        {% endfor %}
+    </ol>
+
+    <form method="get" action="">
+        <input type="submit" name="button1" value="Delete Order"/>
+        <input type="hidden" name="button2" value="{{ key }}"/>
+    </form>
+
+
+{% endfor %}
+
+
+</body>
+</html>
